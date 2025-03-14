@@ -7,7 +7,7 @@ import javax.swing.*;
 public class board extends JFrame {
 
     JPanel panel = new JPanel();
-    JButton buttonRestart = new JButton("Restart");
+    JButton buttonRestart = new JButton("Reset Board");
     ImageIcon cross = new ImageIcon("assets/cross.png");
     ImageIcon circle = new ImageIcon("assets/circle.png");
     int xScore = 0;
@@ -15,6 +15,7 @@ public class board extends JFrame {
     JLabel labelScoreboard = new JLabel(" SCOREBOARD ");
     JLabel labelX = new JLabel("Player x: " + xScore);
     JLabel labelO = new JLabel("Player o: " + oScore);
+    JLabel turnLabel = new JLabel();
 
     boolean player1 = true;
 
@@ -27,7 +28,7 @@ public class board extends JFrame {
         this.setResizable(false);
         this.setContentPane(panel);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        turnShower();
         customLayout();
 
         this.setVisible(true);
@@ -35,18 +36,19 @@ public class board extends JFrame {
 
     private void customLayout() {
 
-        buttonRestart.addActionListener(e -> resetBoard());
+        buttonRestart.addActionListener(e -> restartBoard());
+
 
         JPanel southPanel = new JPanel();
         southPanel.setBackground(Color.CYAN);
         southPanel.setPreferredSize(new Dimension(500, 100));
         southPanel.add(buttonRestart);
+        southPanel.add(turnLabel);
         southPanel.add(labelScoreboard);
-        southPanel.add(labelX);
         southPanel.add(labelO);
+        southPanel.add(labelX);
 
         JPanel northPanel = new JPanel();
-        // northPanel.setBackground(Color.GREEN);
         northPanel.setPreferredSize(new Dimension(500, 500));
         northPanel.setLayout(new GridLayout(3, 3));
 
@@ -71,9 +73,20 @@ public class board extends JFrame {
                             grid[row][col] = 'o';
                         }
                         player1 = !player1;
+                        turnShower();
 
                         if (checkWin(row, col)) {
+                            if(!player1) {
+
+                                xScore++;
+                                labelX.setText("Player x: " + xScore);
+                            }else {
+                                oScore++;
+                                labelO.setText("Player o: " + oScore);
+                            }
+
                             JOptionPane.showMessageDialog(this, "Player " + (player1 ? "o" : "x") + " wins");
+
                             resetBoard();
                         }
                     }
@@ -115,8 +128,34 @@ public class board extends JFrame {
 
             }
         }
+        player1 = true;
+        turnShower();
+    }
+
+    private void restartBoard() {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                buttons[i][j].setIcon(null);
+                grid[i][j] = '\0';
+
+            }
+        }
+        xScore = 0;
+        oScore = 0;
+        labelX.setText("Player x: " + xScore);
+        labelO.setText("Player o: " + oScore);
 
         player1 = true;
+            
+    }
+
+    private void turnShower() {
+        if(player1) {
+            turnLabel.setText("Player x turn");
+        } else {
+            turnLabel.setText("Player o turn");
+        }
+
     }
 
 }
