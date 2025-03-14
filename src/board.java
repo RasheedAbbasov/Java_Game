@@ -12,7 +12,9 @@ public class board extends JFrame {
     ImageIcon circle = new ImageIcon("assets/circle.png");
     int xScore = 0;
     int oScore = 0;
-    JLabel label = new JLabel(" SCOREBOARD: X:" + xScore + " O:" + oScore);
+    JLabel labelScoreboard = new JLabel(" SCOREBOARD ");
+    JLabel labelX = new JLabel("Player x: " + xScore);
+    JLabel labelO = new JLabel("Player o: " + oScore);
 
     boolean player1 = true;
 
@@ -39,7 +41,9 @@ public class board extends JFrame {
         southPanel.setBackground(Color.CYAN);
         southPanel.setPreferredSize(new Dimension(500, 100));
         southPanel.add(buttonRestart);
-        southPanel.add(label);
+        southPanel.add(labelScoreboard);
+        southPanel.add(labelX);
+        southPanel.add(labelO);
 
         JPanel northPanel = new JPanel();
         // northPanel.setBackground(Color.GREEN);
