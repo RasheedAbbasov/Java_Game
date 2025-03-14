@@ -22,6 +22,9 @@ public class board extends JFrame {
     JButton[][] buttons = new JButton[3][3];
     char[][] grid = new char[3][3];
 
+    /**
+     * Constructor
+     */
     public board() {
         this.setTitle("Tic-Tac-Toe");
         this.setSize(500, 600);
@@ -34,11 +37,15 @@ public class board extends JFrame {
         this.setVisible(true);
     }
 
+    /**
+     * Does the layout for the game
+     */
     private void customLayout() {
 
+        // When the button is clicked it restarts the game
         buttonRestart.addActionListener(e -> restartBoard());
 
-
+        // Created and utilized southPanel
         JPanel southPanel = new JPanel();
         southPanel.setBackground(Color.CYAN);
         southPanel.setPreferredSize(new Dimension(500, 100));
@@ -48,23 +55,34 @@ public class board extends JFrame {
         southPanel.add(labelO);
         southPanel.add(labelX);
 
+        // Created and utilized northPanel
         JPanel northPanel = new JPanel();
         northPanel.setPreferredSize(new Dimension(500, 500));
         northPanel.setLayout(new GridLayout(3, 3));
 
+        // Added the panels to the main panel
         panel.setLayout(new FlowLayout());
         panel.add(northPanel);
         panel.add(southPanel);
 
+        // Creats a 3x3 grid of buttons
         for (int i = 0; i <= 2; i++) {
             for (int j = 0; j <= 2; j++) {
+
+                // Creates a button and sets its properties
                 JButton button = new JButton();
                 button.setPreferredSize(new Dimension(150, 150));
                 button.setBackground(Color.WHITE);
                 int row = i, col = j;
 
+                // Creates a action listener to set variables for each button for game logic
                 button.addActionListener(e -> {
+
+                    // Checks if its empty, if not it does nothing to the button
                     if (grid[row][col] == '\0') {
+
+                        // If player1 is true it sets the button to x since player1 is x and if false
+                        // sets the button to o
                         if (player1) {
                             button.setIcon(cross);
                             grid[row][col] = 'x';
@@ -72,15 +90,21 @@ public class board extends JFrame {
                             button.setIcon(circle);
                             grid[row][col] = 'o';
                         }
+
+                        // Sets player1 to the opposite value for the next turn to be different
                         player1 = !player1;
+
+                        // Shows turn
                         turnShower();
 
+                        // Uses checkWin method to see who wins and prints out the winner and resets the
+                        // board
                         if (checkWin(row, col)) {
-                            if(!player1) {
+                            if (!player1) {
 
                                 xScore++;
                                 labelX.setText("Player x: " + xScore);
-                            }else {
+                            } else {
                                 oScore++;
                                 labelO.setText("Player o: " + oScore);
                             }
@@ -92,6 +116,8 @@ public class board extends JFrame {
                     }
                 });
 
+                // Adds button to the 2d Array and makes the grid all empty variables and adds
+                // the buttons to the northpanel
                 buttons[i][j] = button;
                 grid[i][j] = '\0';
                 northPanel.add(button);
@@ -100,6 +126,16 @@ public class board extends JFrame {
 
     }
 
+    /**
+     * 
+     * Checks all possible solutions to see if a win has happened
+     * 
+     * 
+     * 
+     * @param row x coordinate of the button
+     * @param col y coordinate of the button
+     * @return returns true if a win is detected
+     */
     private boolean checkWin(int row, int col) {
         char symbol = grid[row][col];
 
@@ -120,6 +156,11 @@ public class board extends JFrame {
 
     }
 
+    /**
+     * Resets the board, changes everything to default value except the score
+     * Used specifically for when someone wins the game so it can still be kept
+     * playing
+     */
     private void resetBoard() {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -132,6 +173,10 @@ public class board extends JFrame {
         turnShower();
     }
 
+    /**
+     * Changes everything to the default value even the score
+     * Specfically meant for the reset button
+     */
     private void restartBoard() {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -146,11 +191,14 @@ public class board extends JFrame {
         labelO.setText("Player o: " + oScore);
 
         player1 = true;
-            
+
     }
 
+    /**
+     * Sets the label to show whos turn it is
+     */
     private void turnShower() {
-        if(player1) {
+        if (player1) {
             turnLabel.setText("Player x turn");
         } else {
             turnLabel.setText("Player o turn");
