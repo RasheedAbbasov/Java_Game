@@ -31,6 +31,10 @@ public class board extends JFrame {
         this.setResizable(false);
         this.setContentPane(panel);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // Shows Instructions
+        JOptionPane.showMessageDialog(this,
+                "INSTRUCTIONS\n 1.X always goes first\n 2.Click on one of the squares to place your character\n 3.Score is located at the bottom along with whose turn it is\n 4.If draw click ResetBoard\n 4.Click ok to get Started ");
         turnShower();
         customLayout();
 
@@ -111,7 +115,7 @@ public class board extends JFrame {
 
                             JOptionPane.showMessageDialog(this, "Player " + (player1 ? "o" : "x") + " wins");
 
-                            resetBoard();
+                            restartBoard();
                         }
                     }
                 });
@@ -157,11 +161,10 @@ public class board extends JFrame {
     }
 
     /**
-     * Resets the board, changes everything to default value except the score
-     * Used specifically for when someone wins the game so it can still be kept
-     * playing
+     * Changes everything to the default value even the score
+     * Specfically meant for the reset button
      */
-    private void resetBoard() {
+    private void restartBoard() {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 buttons[i][j].setIcon(null);
@@ -174,10 +177,12 @@ public class board extends JFrame {
     }
 
     /**
-     * Changes everything to the default value even the score
-     * Specfically meant for the reset button
+     * Resets the board, changes everything to default value except the score
+     * Used specifically for when someone wins the game so it can still be kept
+     * playing
+     * (THIS METHOD IS NOT BEING USED CURRENTLY WILL USE IT IN THE FUTURE)
      */
-    private void restartBoard() {
+    private void resetBoard() {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 buttons[i][j].setIcon(null);
@@ -191,6 +196,7 @@ public class board extends JFrame {
         labelO.setText("Player o: " + oScore);
 
         player1 = true;
+        turnShower();
 
     }
 
